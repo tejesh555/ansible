@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: ubuntu
   become: true
   tasks:
     - name: install apache
@@ -13,7 +13,7 @@
         state: started
 
     - name:
-      copy:
-        src: files/index.html
+      template:
+        src: templates/index.html.j2
         dest: /var/www/html/index.html
         backup: yes
