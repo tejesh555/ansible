@@ -7,13 +7,18 @@
         name: apache2
         state: present
 
-    - name: start service
-      service:
-        name: apache2
-        state: started
-
-    - name:
+    - name: update the template
       template:
         src: templates/index.html.j2
         dest: /var/www/html/index.html
         backup: yes
+      notify: start service
+
+    
+  handlers:
+     - name: start service
+       service:
+           name: apache2
+           state: restarted
+
+

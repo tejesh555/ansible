@@ -1,6 +1,15 @@
 [ubuntu]
-54.82.1.32
-
+172.31.23.57
+172.31.23.255
 
 [rhel]
-52.91.135.73
+172.31.52.150
+
+[all:children]
+ubuntu
+rhel
+
+[all:vars]
+ansi_var=hyundai
+ansi_var1=mahindra
+ansi_var2=tayota

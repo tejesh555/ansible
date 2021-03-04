@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+  tasks:
+          - name: variables
+            debug: 
+               msg: "{{ ansi_var }}"
+
+          - name: variables1
+            debug:
+               msg: "{{ ansi_var1 }}"
+
+          - name: variables2
+            debug:
+               msg: "{{ ansi_var2 }}"
+
+          - name: java
+            debug:
+                    msg: "{{ java }}"
