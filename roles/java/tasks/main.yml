@@ -1,0 +1,6 @@
+---
+# tasks file for java
+- name: install java
+  apt:
+          name: "{{java}}"
+          state: present

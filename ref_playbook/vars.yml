@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  vars:
+          - ansi_var: nissan
+  tasks:
+          - name: variables
+            debug: 
+               msg: "{{ ansi_var }}"
+            vars:
+                    - ansi_var: bmw
+  

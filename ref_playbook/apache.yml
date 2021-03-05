@@ -4,8 +4,16 @@
   tasks:
     - name: install apache
       apt:
-        name: apache2
+        name: apasdfsdfsdfds
         state: present
+      ignore_errors: yes
+
+    - shell: "touch {{ ansi_var }}"
+   
+    - shell: command="ls -all /home/devops/ansible/*.yml"
+      register: reg_out
+
+    - debug: msg="{{reg_out.stdout_lines}}"
 
     - name: update the template
       template:
