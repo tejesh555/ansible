@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: true
+  roles:
+          - { role: java, java: openjdk-11-jdk }
+          - { role: tom-install }
+          - { role: deploy}

@@ -1,0 +1,8 @@
+---
+- name: copy the package to tomcat
+  copy:    
+      src: /home/devops/SKRLogin/target/SKRLogin-1.0.war
+      dest: /opt/tomcat/latest/webapps/ 
+  notify:
+          - restart tomcat
+#  remote_src: yes   ## usee this if you are having your .war file in your target machine

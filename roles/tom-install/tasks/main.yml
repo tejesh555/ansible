@@ -1,0 +1,64 @@
+---
+- name: adding user for tomcat
+  shell: sudo useradd -m -U -d /opt/tomcat -s /bin/false tomcat
+  ignore_errors: yes
+
+- name: download the tar package to the tmp
+  get_url:
+    url: https://downloads.apache.org/tomcat/tomcat-9/v{{ version }}/bin/apache-tomcat-{{ version }}.tar.gz
+    dest: /tmp
+
+- name: untar the package in the /opt/tomcat
+  unarchive:
+    src: /tmp/apache-tomcat-{{ version }}.tar.gz
+    dest: /opt/tomcat
+    remote_src: yes
+
+- name: create the symlink/shortcut for the Main tomcat binaries
+  file:
+    src: /opt/tomcat/apache-tomcat-{{ version }}
+    dest: /opt/tomcat/latest
+    state: link
+
+- name: give ownership to tomcatuser
+  shell: sudo chown -R tomcat:tomcat /opt/tomcat
+
+- name: give executable permissions for scripts in /bin
+  shell: sudo sh -c 'chmod +x /opt/tomcat/latest/bin/*.sh'
+
+- name: creating the service for tomcat
+  template:
+    src: templates/service.j2
+    dest: /etc/systemd/system/tomcat.service
+
+
+- name: enabling the tomcat servie
+  systemd:
+    name: tomcat
+    daemon_reload: yes
+    enabled: True
+
+- name: restart the tomcat servie
+  systemd:
+    name: tomcat
+    state: restarted
+
+- name: creating the roles and users
+  lineinfile:
+    path: /opt/tomcat/latest/conf/tomcat-users.xml
+    #regexp: '^</tomcat-users>'
+    insertbefore: '^</tomcat-users>'
+    line: "{{ item }}"
+  with_items:
+    - <role rolename="admin-gui"/>
+    - <role rolename="manager-gui"/>
+    - <user username="admin" password="admin" roles="admin-gui,manager-gui"/>
+
+- name: delete the lines
+  lineinfile:
+    path: /opt/tomcat/latest/webapps/manager/META-INF/context.xml
+    regexp: "{{ item }}"
+    state: absent
+  with_items:
+    - Valve className
+    - 0:0:0:0:0:0:0:1

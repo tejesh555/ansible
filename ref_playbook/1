@@ -1,0 +1,15 @@
+---
+- hosts: ubuntu
+  become: yes
+  tasks:
+          - shell: touch a
+          - shell: ls | grep a
+            register: asd
+          - debug:  
+               msg: "{{ asd.stdout_lines }}"
+          - lineinfile:
+                  path: /home/devops/a
+                  #regexp: abc
+                  line: 'add this'
+                  insertbefore: def
+
