@@ -3,4 +3,4 @@
   become: true
   roles:
           - {role: java}
-        #  - {role: git}
+          - {role: tom-install}
