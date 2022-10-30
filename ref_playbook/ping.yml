@@ -1,5 +1,5 @@
 ---
-- hosts: rhel
+- hosts: all
   tasks:
           - ping:  
               data: tejesh
